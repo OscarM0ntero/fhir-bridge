@@ -1,0 +1,213 @@
+{
+  "systems": {
+    "icd10": "http://hl7.org/fhir/sid/icd-10",
+    "orphanet": "https://www.orpha.net",
+    "loinc": "http://loinc.org",
+    "ucum": "http://unitsofmeasure.org",
+    "legacyDiagnosis": "http://example.org/fhir/CodeSystem/legacy-diagnosis-codes",
+    "legacyLab": "http://example.org/fhir/CodeSystem/legacy-lab-codes"
+  },
+  "provenance": {
+    "icd10": "Canonical URI taken from the FHIR R4 specification, hl7.org/fhir/R4/icd.html. Codes and displays checked against the ICD-10 release published by tx.fhir.org.",
+    "orphanet": "Canonical URI and OID 1.3.6.1.4.1.12559.11.10.1.3.1.44.5 taken from the HL7 Terminology external code system registry. Note the https scheme, which the registry gives and which is case sensitive. ORPHAcodes and preferred terms checked against ORDO, the Orphanet ontology, through the EBI Ontology Lookup Service.",
+    "loinc": "Canonical URI taken from the FHIR R4 specification. Codes and long common names checked against LOINC 2.82 through tx.fhir.org. LOINC part codes, which start with LP, are deliberately not used: they name concepts but are not observable codes.",
+    "ucum": "Canonical URI taken from the FHIR R4 specification. Every unit below was validated with a $validate-code call against tx.fhir.org.",
+    "legacy": "example.org is reserved for documentation, which makes it the honest choice for a code system that only exists inside this synthetic project.",
+    "orphanetCodeFormat": "ORPHAcodes are written here as bare numbers, such as 324, because the ORPHAcode is defined as a number and the system URI already says which nomenclature it belongs to. Some implementations write ORPHA:324 instead. The HL7 registry does not state which form is expected."
+  },
+  "conditions": {
+    "RD-014": {
+      "display": "Fabry disease",
+      "icd10": {
+        "code": "E75.2",
+        "display": "Other sphingolipidosis"
+      },
+      "orphanet": {
+        "code": "324",
+        "display": "Fabry disease"
+      }
+    },
+    "RD-101": {
+      "display": "Gaucher disease type 1",
+      "icd10": {
+        "code": "E75.2",
+        "display": "Other sphingolipidosis"
+      },
+      "orphanet": {
+        "code": "77259",
+        "display": "Gaucher disease type 1"
+      }
+    },
+    "RD-207": {
+      "display": "Pompe disease",
+      "icd10": {
+        "code": "E74.0",
+        "display": "Glycogen storage disease"
+      },
+      "orphanet": {
+        "code": "365",
+        "display": "Glycogen storage disease due to acid maltase deficiency"
+      }
+    },
+    "RD-033": {
+      "display": "Huntington disease",
+      "icd10": {
+        "code": "G10",
+        "display": "Huntington disease"
+      },
+      "orphanet": {
+        "code": "399",
+        "display": "Huntington disease"
+      }
+    },
+    "RD-052": {
+      "display": "Cystic fibrosis",
+      "icd10": {
+        "code": "E84.9",
+        "display": "Cystic fibrosis, unspecified"
+      },
+      "orphanet": {
+        "code": "586",
+        "display": "Cystic fibrosis"
+      }
+    },
+    "RD-118": {
+      "display": "Duchenne muscular dystrophy",
+      "icd10": {
+        "code": "G71.0",
+        "display": "Muscular dystrophy"
+      },
+      "orphanet": {
+        "code": "98896",
+        "display": "Duchenne muscular dystrophy"
+      }
+    },
+    "RD-160": {
+      "display": "Marfan syndrome",
+      "icd10": {
+        "code": "Q87.4",
+        "display": "Marfan syndrome"
+      },
+      "orphanet": {
+        "code": "558",
+        "display": "Marfan syndrome"
+      }
+    },
+    "RD-275": {
+      "display": "Wilson disease",
+      "icd10": {
+        "code": "E83.0",
+        "display": "Disorders of copper metabolism"
+      },
+      "orphanet": {
+        "code": "905",
+        "display": "Wilson disease"
+      }
+    },
+    "RD-089": {
+      "display": "Amyotrophic lateral sclerosis",
+      "icd10": {
+        "code": "G12.2",
+        "display": "Motor neuron disease"
+      },
+      "orphanet": {
+        "code": "803",
+        "display": "Amyotrophic lateral sclerosis"
+      }
+    },
+    "RD-341": {
+      "display": "Rett syndrome",
+      "icd10": {
+        "code": "F84.2",
+        "display": "Rett syndrome"
+      },
+      "orphanet": {
+        "code": "778",
+        "display": "Rett syndrome"
+      }
+    },
+    "RD-062": {
+      "display": "Phenylketonuria",
+      "icd10": {
+        "code": "E70.0",
+        "display": "Classical phenylketonuria"
+      },
+      "orphanet": {
+        "code": "716",
+        "display": "Phenylketonuria"
+      }
+    }
+  },
+  "observations": {
+    "LB-AGAL": {
+      "display": "Alpha-galactosidase A activity",
+      "loinc": {
+        "code": "24049-9",
+        "display": "Alpha galactosidase A [Enzymatic activity/mass] in Leukocytes"
+      }
+    },
+    "LB-GAA": {
+      "display": "Acid alpha-glucosidase activity",
+      "loinc": {
+        "code": "24051-5",
+        "display": "Acid alpha glucosidase [Enzymatic activity/mass] in Leukocytes"
+      }
+    },
+    "LB-GBA": {
+      "display": "Beta-glucosidase activity",
+      "loinc": null,
+      "unmappedReason": "LOINC 2.82 has no quantitative code for beta-glucosidase activity: the only matches are interpretation codes for the activator protein. The local code is kept on its own rather than forced onto a code that means something else."
+    },
+    "LB-SWCL": {
+      "display": "Sweat chloride",
+      "loinc": {
+        "code": "2077-6",
+        "display": "Chloride [Moles/volume] in Sweat"
+      }
+    },
+    "LB-CK": {
+      "display": "Creatine kinase",
+      "loinc": {
+        "code": "2157-6",
+        "display": "Creatine kinase [Enzymatic activity/volume] in Serum or Plasma"
+      }
+    },
+    "LB-CERU": {
+      "display": "Ceruloplasmin",
+      "loinc": {
+        "code": "2064-4",
+        "display": "Ceruloplasmin [Mass/volume] in Serum or Plasma"
+      }
+    },
+    "LB-PHE": {
+      "display": "Phenylalanine",
+      "loinc": {
+        "code": "14875-9",
+        "display": "Phenylalanine [Moles/volume] in Serum or Plasma"
+      }
+    },
+    "LB-NFL": {
+      "display": "Neurofilament light chain",
+      "loinc": {
+        "code": "101281-4",
+        "display": "Neurofilament light chain [Mass/volume] in Serum or Plasma by Immunoassay"
+      }
+    },
+    "LB-HTTCAG": {
+      "display": "HTT gene CAG repeat count",
+      "loinc": {
+        "code": "53782-9",
+        "display": "HTT gene CAG repeats [Entitic number] in Blood or Tissue by Molecular genetics method"
+      }
+    }
+  },
+  "units": {
+    "nmol/h/mg": "nmol/h/mg",
+    "mmol/l": "mmol/L",
+    "u/l": "U/L",
+    "mg/dl": "mg/dL",
+    "umol/l": "umol/L",
+    "pg/ml": "pg/mL",
+    "repeats": "{repeats}"
+  }
+}
