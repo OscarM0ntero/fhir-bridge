@@ -1,0 +1,3 @@
+# Normalise line endings so the shell hooks stay executable on every platform.
+* text=auto eol=lf
+*.png binary

@@ -1,0 +1,12 @@
+title = "fhir-bridge secret scanning"
+
+[extend]
+# Start from the built-in gitleaks rule set and only add project-specific tuning.
+useDefault = true
+
+[allowlist]
+description = "Files that are expected to contain placeholder values only"
+paths = [
+  '''\.env\.example$''',
+  '''data/legacy-export\.csv$''',
+]

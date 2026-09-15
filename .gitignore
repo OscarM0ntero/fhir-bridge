@@ -1,0 +1,13 @@
+node_modules/
+dist/
+coverage/
+out/
+
+# Local configuration: never commit real values, only .env.example
+.env
+.env.*
+!.env.example
+
+*.log
+.DS_Store
+Thumbs.db
