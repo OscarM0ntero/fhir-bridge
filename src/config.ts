@@ -14,6 +14,12 @@ export interface AppConfig {
   readonly requestTimeoutMs: number;
   /** When true, resources are mapped and validated but never uploaded. */
   readonly dryRun: boolean;
+  /**
+   * Timezone assumed for legacy timestamps that carry no zone of their own.
+   * A FHIR dateTime that states a time must also state its offset, and the
+   * legacy export states none, so the pipeline has to assume one.
+   */
+  readonly sourceTimezoneOffset: string;
 }
 
 /** Thrown when an environment variable is present but cannot be used. */
@@ -30,10 +36,14 @@ const DEFAULTS = {
   outputDir: 'out',
   requestTimeoutMs: 30_000,
   dryRun: false,
+  sourceTimezoneOffset: 'Z',
 } as const;
 
 const TRUE_VALUES = ['true', '1', 'yes'];
 const FALSE_VALUES = ['false', '0', 'no'];
+
+/** Either the UTC designator or an offset between -14:00 and +14:00. */
+const TIMEZONE_OFFSET_PATTERN = /^(?:Z|[+-](?:0\d|1[0-3]):[0-5]\d|[+-]14:00)$/;
 
 /**
  * Loads the .env file into process.env. Kept separate from loadConfig so that
@@ -52,6 +62,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     outputDir: readValue(env, 'OUTPUT_DIR') ?? DEFAULTS.outputDir,
     requestTimeoutMs: readPositiveInteger(env, 'REQUEST_TIMEOUT_MS', DEFAULTS.requestTimeoutMs),
     dryRun: readBoolean(env, 'DRY_RUN', DEFAULTS.dryRun),
+    sourceTimezoneOffset: readTimezoneOffset(env, 'SOURCE_TIMEZONE_OFFSET'),
   };
 }
 
@@ -109,4 +120,17 @@ function readBoolean(env: NodeJS.ProcessEnv, key: string, fallback: boolean): bo
   throw new ConfigError(
     `${key} must be one of ${[...TRUE_VALUES, ...FALSE_VALUES].join(', ')}, received "${value}".`,
   );
+}
+
+function readTimezoneOffset(env: NodeJS.ProcessEnv, key: string): string {
+  const value = readValue(env, key);
+  if (value === undefined) {
+    return DEFAULTS.sourceTimezoneOffset;
+  }
+
+  if (!TIMEZONE_OFFSET_PATTERN.test(value)) {
+    throw new ConfigError(`${key} must be "Z" or an offset such as "+02:00", received "${value}".`);
+  }
+
+  return value;
 }

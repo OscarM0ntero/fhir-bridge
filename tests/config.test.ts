@@ -13,6 +13,7 @@ describe('loadConfig', () => {
       outputDir: 'out',
       requestTimeoutMs: 30_000,
       dryRun: false,
+      sourceTimezoneOffset: 'Z',
     });
   });
 
@@ -24,6 +25,7 @@ describe('loadConfig', () => {
       OUTPUT_DIR: 'build/report',
       REQUEST_TIMEOUT_MS: '5000',
       DRY_RUN: 'true',
+      SOURCE_TIMEZONE_OFFSET: '+02:00',
     });
 
     expect(config).toEqual({
@@ -33,6 +35,7 @@ describe('loadConfig', () => {
       outputDir: 'build/report',
       requestTimeoutMs: 5000,
       dryRun: true,
+      sourceTimezoneOffset: '+02:00',
     });
   });
 
@@ -82,4 +85,18 @@ describe('loadConfig', () => {
   it('rejects a DRY_RUN value that is not a boolean', () => {
     expect(() => loadConfig({ DRY_RUN: 'maybe' })).toThrow(ConfigError);
   });
+
+  it.each(['Z', '+02:00', '-05:00', '+14:00', '-00:30'])(
+    'accepts the timezone offset %s',
+    (offset) => {
+      expect(loadConfig({ SOURCE_TIMEZONE_OFFSET: offset }).sourceTimezoneOffset).toBe(offset);
+    },
+  );
+
+  it.each(['+2:00', '+02', '0200', '+14:30', '+15:00', '+02:60', 'CET', 'UTC'])(
+    'rejects the timezone offset %s',
+    (offset) => {
+      expect(() => loadConfig({ SOURCE_TIMEZONE_OFFSET: offset })).toThrow(ConfigError);
+    },
+  );
 });

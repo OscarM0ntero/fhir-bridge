@@ -1,0 +1,26 @@
+﻿PAT_ID;MRN;LAST_NAME;FIRST_NAME;BIRTH_DT;SEX;DX_CODE;DX_TEXT;DX_DATE;DX_STATUS;ONSET_AGE;LAB_CODE;LAB_VALUE;LAB_UNIT;LAB_DT;NOTES
+P0001;MRN-10001;NOVAK ;Elena;12/03/1998;F;RD-014;Fabry disease;2019-06-04;ACT;21;LB-AGAL;1,25;nmol/h/mg;2019-06-02 09:15;
+P0002;MRN-10002;Okafor;DAVID;19871104;m;;Suspected mitochondrial myopathy, pending genetics;04/11/2021;SUSP;;;;;;follow-up in 6 months
+P0003;MRN-10001;NOVAK;Elena;1998;F;RD-101;Gaucher disease type 1;2022-01-17;ACT;24;LB-GBA;<0.5;nmol/h/mg;17/01/2022;
+P0004;MRN-10004;Bianchi;Marco;05-09-2003;M;RD-207;Pompe disease (late onset);2020-11-30;ACT;17;LB-GAA;2.8;nmol/h/mg;2020-11-28;
+P0005;MRN-10005;Haddad;Nour;1975-12-01;F;RD-033;Huntington disease;2018-02-14;ACT;42;LB-HTTCAG;44;repeats;2018-02-01;"family history: father, paternal aunt; genetics confirmed"
+P0006;MRN-10006;Svensson;Anna;30/07/2010;F;RD-052;Cystic fibrosis;2010-08-12;ACT;0;LB-SWCL;92;mmol/L;12/08/2010;newborn screening
+P0007;MRN-10007;Oyelaran;Tunde;14/02/2012;M;RD-118;Duchenne muscular dystrophy;2016-05-09;ACT;4;LB-CK;12500;U/L;2016-05-05 08:40;
+P0008;MRN-10008;Ferreira;Luísa;22/06/1989;f;RD-160;Marfan syndrome;2011-09-21;ACT;22;;;;;
+P0009;MRN-10009;Müller;Jonas;1994-04-17;MALE;RD-275;Wilson disease;2015-03-03;ACT;20;LB-CERU;8;mg/dl;03/03/2015;
+P0010;MRN-10010;Kowalski;Piotr;08/08/1962;1;RD-089;Amyotrophic lateral sclerosis;2023-04-19;ACT;60;LB-NFL;98,4;pg/mL;2023-04-15 11:00;
+P0011;MRN-10011;Dubois;Camille;03/05/2015;2;RD-341;Rett syndrome;2018-10-02;ACT;2;;;;;MECP2 mutation confirmed
+P0012;MRN-10012;Rossi;Giulia;20011130;F;RD-062;Phenylketonuria;2001-12-05;ACT;0;LB-PHE;1210;umol/L;05/12/2001;diet controlled
+P0013;MRN-10013;Ivanov;Sergei;1980-01-25;M;RD-410;Hereditary angioedema type I;2019-08-30;ACT;38;;;;;
+P0014;MRN-10014;Silva;Ana;17/09/1999;F;;Ehlers-Danlos syndrome, hypermobile type;2021-03-12;ACT;;;;;;no genetic test available
+P0015;MRN-10015;Nakamura;Yuki;11-11-1988;F;RD-014;Fabry disease;2017-07-07;RES;29;LB-AGAL;N/A;nmol/h/mg;07/07/2017;
+P0016;MRN-10016;Andersen;Mads;1970-06-30;M;RD-275;Wilson disease;2012-12-12;RES;41;LB-CERU;;mg/dL;12/12/2012;
+P0017;MRN-10017;Petrova;Irina;25/12/2005;F;RD-052;Cystic fibrosis ;2009-04-18;act;3;LB-SWCL;78;mmol/l;2009-04-18;
+P0018;MRN-10018;Garcia;Mateo;   ;M;RD-118;Duchenne muscular dystrophy;2014-06-01;ACT;5;LB-CK;9800;U/L;01/06/2014;
+P0019;MRN-10019;Larsen;Freja;2000-02-29;F;RD-033;Huntington disease;2024-01-08;SUSP;23;;;;;genetic counselling scheduled
+P0020;MRN-10020;;Ahmed;1996-05-14;U;RD-207;Pompe disease;2019-09-09;ACT;23;LB-GAA;0,9;nmol/h/mg;09/09/2019;
+P0021;MRN-10021;Brown;Sophie;07/07/1993;F;RD-101;Gaucher disease type 1;2013-05-22;ACT;19;LB-GBA;3.1;nmol/h/mg;22/05/2013 14:30;
+P0022;MRN-10022;Weber;Lukas;1959-10-02;M;RD-089;ALS;2022-11-11;ACT;62;LB-NFL;120;pg/mL;2022-11-10;bulbar onset
+P0023;;Moreau;Théo;18/03/2008;M;RD-160;Marfan syndrome;2019-02-20;ACT;10;;;;;
+P0024;MRN-10024;Jansen;Sanne;31/02/2001;F;RD-062;Phenylketonuria;2003-01-10;ACT;1;LB-PHE;980;umol/L;10/01/2003;
+P0025;MRN-10025;Costa;Rui;1983-07-19;M;RD-014;Fabry disease;2024-03-01;SUSP;40;LB-AGAL;1.9;nmol/h/mg;2024-02-28 16:05;awaiting genetic confirmation
