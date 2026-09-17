@@ -1,0 +1,553 @@
+{
+  "resourceType": "OperationOutcome",
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h1>Operation Outcome</h1><table border=\"0\"><tr><td style=\"font-weight: bold;\">WARNING</td><td>[Bundle.entry[0].resource/*Patient/null*/, Line[1] Col[614]]</td><td>Constraint failed: dom-6: 'A resource should have narrative for robust management' (defined in http://hl7.org/fhir/StructureDefinition/DomainResource) (Best Practice Recommendation)</td></tr><tr><td style=\"font-weight: bold;\">WARNING</td><td>[Bundle.entry[1].resource/*Condition/null*/.code, Line[1] Col[1806]]</td><td>CodeSystem is unknown and can't be validated: https://www.orpha.net for 'https://www.orpha.net#324'</td></tr><tr><td style=\"font-weight: bold;\">WARNING</td><td>[Bundle.entry[1].resource/*Condition/null*/.code, Line[1] Col[1806]]</td><td>CodeSystem is unknown and can't be validated: http://hl7.org/fhir/sid/icd-10 for 'http://hl7.org/fhir/sid/icd-10#E75.2'</td></tr><tr><td style=\"font-weight: bold;\">WARNING</td><td>[Bundle.entry[1].resource/*Condition/null*/.code, Line[1] Col[1806]]</td><td>CodeSystem is unknown and can't be validated: http://example.org/fhir/CodeSystem/legacy-diagnosis-codes for 'http://example.org/fhir/CodeSystem/legacy-diagnosis-codes#RD-014'</td></tr><tr><td style=\"font-weight: bold;\">WARNING</td><td>[Bundle.entry[1].resource/*Condition/null*/, Line[1] Col[1994]]</td><td>Constraint failed: dom-6: 'A resource should have narrative for robust management' (defined in http://hl7.org/fhir/StructureDefinition/DomainResource) (Best Practice Recommendation)</td></tr><tr><td style=\"font-weight: bold;\">WARNING</td><td>[Bundle.entry[2].resource/*Observation/null*/, Line[1] Col[3120]]</td><td>Best Practice Recommendation: In general, all observations should have a performer</td></tr><tr><td style=\"font-weight: bold;\">WARNING</td><td>[Bundle.entry[2].resource/*Observation/null*/.code, Line[1] Col[2898]]</td><td>CodeSystem is unknown and can't be validated: http://loinc.org for 'http://loinc.org#24049-9'</td></tr><tr><td style=\"font-weight: bold;\">WARNING</td><td>[Bundle.entry[2].resource/*Observation/null*/.code, Line[1] Col[2898]]</td><td>CodeSystem is unknown and can't be validated: http://example.org/fhir/CodeSystem/legacy-lab-codes for 'http://example.org/fhir/CodeSystem/legacy-lab-codes#LB-AGAL'</td></tr><tr><td style=\"font-weight: bold;\">WARNING</td><td>[Bundle.entry[2].resource/*Observation/null*/, Line[1] Col[3120]]</td><td>Constraint failed: dom-6: 'A resource should have narrative for robust management' (defined in http://hl7.org/fhir/StructureDefinition/DomainResource) (Best Practice Recommendation)</td></tr><tr><td style=\"font-weight: bold;\">WARNING</td><td>[Bundle.entry[3].resource/*Condition/null*/.code, Line[1] Col[4348]]</td><td>CodeSystem is unknown and can't be validated: https://www.orpha.net for 'https://www.orpha.net#77259'</td></tr><tr><td style=\"font-weight: bold;\">WARNING</td><td>[Bundle.entry[3].resource/*Condition/null*/.code, Line[1] Col[4348]]</td><td>CodeSystem is unknown and can't be validated: http://hl7.org/fhir/sid/icd-10 for 'http://hl7.org/fhir/sid/icd-10#E75.2'</td></tr><tr><td style=\"font-weight: bold;\">WARNING</td><td>[Bundle.entry[3].resource/*Condition/null*/.code, Line[1] Col[4348]]</td><td>CodeSystem is unknown and can't be validated: http://example.org/fhir/CodeSystem/legacy-diagnosis-codes for 'http://example.org/fhir/CodeSystem/legacy-diagnosis-codes#RD-101'</td></tr><tr><td style=\"font-weight: bold;\">WARNING</td><td>[Bundle.entry[3].resource/*Condition/null*/, Line[1] Col[4536]]</td><td>Constraint failed: dom-6: 'A resource should have narrative for robust management' (defined in http://hl7.org/fhir/StructureDefinition/DomainResource) (Best Practice Recommendation)</td></tr><tr><td style=\"font-weight: bold;\">WARNING</td><td>[Bundle.entry[4].resource/*Observation/null*/, Line[1] Col[5536]]</td><td>Best Practice Recommendation: In general, all observations should have a performer</td></tr><tr><td style=\"font-weight: bold;\">WARNING</td><td>[Bundle.entry[4].resource/*Observation/null*/.code, Line[1] Col[5308]]</td><td>CodeSystem is unknown and can't be validated: http://example.org/fhir/CodeSystem/legacy-lab-codes for 'http://example.org/fhir/CodeSystem/legacy-lab-codes#LB-GBA'</td></tr><tr><td style=\"font-weight: bold;\">WARNING</td><td>[Bundle.entry[4].resource/*Observation/null*/, Line[1] Col[5536]]</td><td>Constraint failed: dom-6: 'A resource should have narrative for robust management' (defined in http://hl7.org/fhir/StructureDefinition/DomainResource) (Best Practice Recommendation)</td></tr></table></div>"
+  },
+  "issue": [
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-line",
+          "valueInteger": 1
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-col",
+          "valueInteger": 614
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-message-id",
+          "valueString": "http://hl7.org/fhir/StructureDefinition/DomainResource#dom-6"
+        }
+      ],
+      "severity": "warning",
+      "code": "processing",
+      "details": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/java-core-messageId",
+            "code": "http://hl7.org/fhir/StructureDefinition/DomainResource#dom-6"
+          }
+        ]
+      },
+      "diagnostics": "Constraint failed: dom-6: 'A resource should have narrative for robust management' (defined in http://hl7.org/fhir/StructureDefinition/DomainResource) (Best Practice Recommendation)",
+      "location": [
+        "Bundle.entry[0].resource/*Patient/null*/",
+        "Line[1] Col[614]"
+      ],
+      "expression": [
+        "Bundle.entry[0].resource/*Patient/null*/"
+      ]
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-line",
+          "valueInteger": 1
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-col",
+          "valueInteger": 1806
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-message-id",
+          "valueString": "Terminology_PassThrough_TX_Message"
+        }
+      ],
+      "severity": "warning",
+      "code": "processing",
+      "details": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/java-core-messageId",
+            "code": "Terminology_PassThrough_TX_Message"
+          }
+        ]
+      },
+      "diagnostics": "CodeSystem is unknown and can't be validated: https://www.orpha.net for 'https://www.orpha.net#324'",
+      "location": [
+        "Bundle.entry[1].resource/*Condition/null*/.code",
+        "Line[1] Col[1806]"
+      ],
+      "expression": [
+        "Bundle.entry[1].resource/*Condition/null*/.code"
+      ]
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-line",
+          "valueInteger": 1
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-col",
+          "valueInteger": 1806
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-message-id",
+          "valueString": "Terminology_PassThrough_TX_Message"
+        }
+      ],
+      "severity": "warning",
+      "code": "processing",
+      "details": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/java-core-messageId",
+            "code": "Terminology_PassThrough_TX_Message"
+          }
+        ]
+      },
+      "diagnostics": "CodeSystem is unknown and can't be validated: http://hl7.org/fhir/sid/icd-10 for 'http://hl7.org/fhir/sid/icd-10#E75.2'",
+      "location": [
+        "Bundle.entry[1].resource/*Condition/null*/.code",
+        "Line[1] Col[1806]"
+      ],
+      "expression": [
+        "Bundle.entry[1].resource/*Condition/null*/.code"
+      ]
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-line",
+          "valueInteger": 1
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-col",
+          "valueInteger": 1806
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-message-id",
+          "valueString": "Terminology_PassThrough_TX_Message"
+        }
+      ],
+      "severity": "warning",
+      "code": "processing",
+      "details": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/java-core-messageId",
+            "code": "Terminology_PassThrough_TX_Message"
+          }
+        ]
+      },
+      "diagnostics": "CodeSystem is unknown and can't be validated: http://example.org/fhir/CodeSystem/legacy-diagnosis-codes for 'http://example.org/fhir/CodeSystem/legacy-diagnosis-codes#RD-014'",
+      "location": [
+        "Bundle.entry[1].resource/*Condition/null*/.code",
+        "Line[1] Col[1806]"
+      ],
+      "expression": [
+        "Bundle.entry[1].resource/*Condition/null*/.code"
+      ]
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-line",
+          "valueInteger": 1
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-col",
+          "valueInteger": 1994
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-message-id",
+          "valueString": "http://hl7.org/fhir/StructureDefinition/DomainResource#dom-6"
+        }
+      ],
+      "severity": "warning",
+      "code": "processing",
+      "details": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/java-core-messageId",
+            "code": "http://hl7.org/fhir/StructureDefinition/DomainResource#dom-6"
+          }
+        ]
+      },
+      "diagnostics": "Constraint failed: dom-6: 'A resource should have narrative for robust management' (defined in http://hl7.org/fhir/StructureDefinition/DomainResource) (Best Practice Recommendation)",
+      "location": [
+        "Bundle.entry[1].resource/*Condition/null*/",
+        "Line[1] Col[1994]"
+      ],
+      "expression": [
+        "Bundle.entry[1].resource/*Condition/null*/"
+      ]
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-line",
+          "valueInteger": 1
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-col",
+          "valueInteger": 3120
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-message-id",
+          "valueString": "All_observations_should_have_a_performer"
+        }
+      ],
+      "severity": "warning",
+      "code": "processing",
+      "details": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/java-core-messageId",
+            "code": "All_observations_should_have_a_performer"
+          }
+        ]
+      },
+      "diagnostics": "Best Practice Recommendation: In general, all observations should have a performer",
+      "location": [
+        "Bundle.entry[2].resource/*Observation/null*/",
+        "Line[1] Col[3120]"
+      ],
+      "expression": [
+        "Bundle.entry[2].resource/*Observation/null*/"
+      ]
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-line",
+          "valueInteger": 1
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-col",
+          "valueInteger": 2898
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-message-id",
+          "valueString": "Terminology_PassThrough_TX_Message"
+        }
+      ],
+      "severity": "warning",
+      "code": "processing",
+      "details": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/java-core-messageId",
+            "code": "Terminology_PassThrough_TX_Message"
+          }
+        ]
+      },
+      "diagnostics": "CodeSystem is unknown and can't be validated: http://loinc.org for 'http://loinc.org#24049-9'",
+      "location": [
+        "Bundle.entry[2].resource/*Observation/null*/.code",
+        "Line[1] Col[2898]"
+      ],
+      "expression": [
+        "Bundle.entry[2].resource/*Observation/null*/.code"
+      ]
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-line",
+          "valueInteger": 1
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-col",
+          "valueInteger": 2898
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-message-id",
+          "valueString": "Terminology_PassThrough_TX_Message"
+        }
+      ],
+      "severity": "warning",
+      "code": "processing",
+      "details": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/java-core-messageId",
+            "code": "Terminology_PassThrough_TX_Message"
+          }
+        ]
+      },
+      "diagnostics": "CodeSystem is unknown and can't be validated: http://example.org/fhir/CodeSystem/legacy-lab-codes for 'http://example.org/fhir/CodeSystem/legacy-lab-codes#LB-AGAL'",
+      "location": [
+        "Bundle.entry[2].resource/*Observation/null*/.code",
+        "Line[1] Col[2898]"
+      ],
+      "expression": [
+        "Bundle.entry[2].resource/*Observation/null*/.code"
+      ]
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-line",
+          "valueInteger": 1
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-col",
+          "valueInteger": 3120
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-message-id",
+          "valueString": "http://hl7.org/fhir/StructureDefinition/DomainResource#dom-6"
+        }
+      ],
+      "severity": "warning",
+      "code": "processing",
+      "details": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/java-core-messageId",
+            "code": "http://hl7.org/fhir/StructureDefinition/DomainResource#dom-6"
+          }
+        ]
+      },
+      "diagnostics": "Constraint failed: dom-6: 'A resource should have narrative for robust management' (defined in http://hl7.org/fhir/StructureDefinition/DomainResource) (Best Practice Recommendation)",
+      "location": [
+        "Bundle.entry[2].resource/*Observation/null*/",
+        "Line[1] Col[3120]"
+      ],
+      "expression": [
+        "Bundle.entry[2].resource/*Observation/null*/"
+      ]
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-line",
+          "valueInteger": 1
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-col",
+          "valueInteger": 4348
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-message-id",
+          "valueString": "Terminology_PassThrough_TX_Message"
+        }
+      ],
+      "severity": "warning",
+      "code": "processing",
+      "details": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/java-core-messageId",
+            "code": "Terminology_PassThrough_TX_Message"
+          }
+        ]
+      },
+      "diagnostics": "CodeSystem is unknown and can't be validated: https://www.orpha.net for 'https://www.orpha.net#77259'",
+      "location": [
+        "Bundle.entry[3].resource/*Condition/null*/.code",
+        "Line[1] Col[4348]"
+      ],
+      "expression": [
+        "Bundle.entry[3].resource/*Condition/null*/.code"
+      ]
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-line",
+          "valueInteger": 1
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-col",
+          "valueInteger": 4348
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-message-id",
+          "valueString": "Terminology_PassThrough_TX_Message"
+        }
+      ],
+      "severity": "warning",
+      "code": "processing",
+      "details": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/java-core-messageId",
+            "code": "Terminology_PassThrough_TX_Message"
+          }
+        ]
+      },
+      "diagnostics": "CodeSystem is unknown and can't be validated: http://hl7.org/fhir/sid/icd-10 for 'http://hl7.org/fhir/sid/icd-10#E75.2'",
+      "location": [
+        "Bundle.entry[3].resource/*Condition/null*/.code",
+        "Line[1] Col[4348]"
+      ],
+      "expression": [
+        "Bundle.entry[3].resource/*Condition/null*/.code"
+      ]
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-line",
+          "valueInteger": 1
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-col",
+          "valueInteger": 4348
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-message-id",
+          "valueString": "Terminology_PassThrough_TX_Message"
+        }
+      ],
+      "severity": "warning",
+      "code": "processing",
+      "details": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/java-core-messageId",
+            "code": "Terminology_PassThrough_TX_Message"
+          }
+        ]
+      },
+      "diagnostics": "CodeSystem is unknown and can't be validated: http://example.org/fhir/CodeSystem/legacy-diagnosis-codes for 'http://example.org/fhir/CodeSystem/legacy-diagnosis-codes#RD-101'",
+      "location": [
+        "Bundle.entry[3].resource/*Condition/null*/.code",
+        "Line[1] Col[4348]"
+      ],
+      "expression": [
+        "Bundle.entry[3].resource/*Condition/null*/.code"
+      ]
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-line",
+          "valueInteger": 1
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-col",
+          "valueInteger": 4536
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-message-id",
+          "valueString": "http://hl7.org/fhir/StructureDefinition/DomainResource#dom-6"
+        }
+      ],
+      "severity": "warning",
+      "code": "processing",
+      "details": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/java-core-messageId",
+            "code": "http://hl7.org/fhir/StructureDefinition/DomainResource#dom-6"
+          }
+        ]
+      },
+      "diagnostics": "Constraint failed: dom-6: 'A resource should have narrative for robust management' (defined in http://hl7.org/fhir/StructureDefinition/DomainResource) (Best Practice Recommendation)",
+      "location": [
+        "Bundle.entry[3].resource/*Condition/null*/",
+        "Line[1] Col[4536]"
+      ],
+      "expression": [
+        "Bundle.entry[3].resource/*Condition/null*/"
+      ]
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-line",
+          "valueInteger": 1
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-col",
+          "valueInteger": 5536
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-message-id",
+          "valueString": "All_observations_should_have_a_performer"
+        }
+      ],
+      "severity": "warning",
+      "code": "processing",
+      "details": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/java-core-messageId",
+            "code": "All_observations_should_have_a_performer"
+          }
+        ]
+      },
+      "diagnostics": "Best Practice Recommendation: In general, all observations should have a performer",
+      "location": [
+        "Bundle.entry[4].resource/*Observation/null*/",
+        "Line[1] Col[5536]"
+      ],
+      "expression": [
+        "Bundle.entry[4].resource/*Observation/null*/"
+      ]
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-line",
+          "valueInteger": 1
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-col",
+          "valueInteger": 5308
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-message-id",
+          "valueString": "Terminology_PassThrough_TX_Message"
+        }
+      ],
+      "severity": "warning",
+      "code": "processing",
+      "details": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/java-core-messageId",
+            "code": "Terminology_PassThrough_TX_Message"
+          }
+        ]
+      },
+      "diagnostics": "CodeSystem is unknown and can't be validated: http://example.org/fhir/CodeSystem/legacy-lab-codes for 'http://example.org/fhir/CodeSystem/legacy-lab-codes#LB-GBA'",
+      "location": [
+        "Bundle.entry[4].resource/*Observation/null*/.code",
+        "Line[1] Col[5308]"
+      ],
+      "expression": [
+        "Bundle.entry[4].resource/*Observation/null*/.code"
+      ]
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-line",
+          "valueInteger": 1
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-issue-col",
+          "valueInteger": 5536
+        },
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/operationoutcome-message-id",
+          "valueString": "http://hl7.org/fhir/StructureDefinition/DomainResource#dom-6"
+        }
+      ],
+      "severity": "warning",
+      "code": "processing",
+      "details": {
+        "coding": [
+          {
+            "system": "http://hl7.org/fhir/java-core-messageId",
+            "code": "http://hl7.org/fhir/StructureDefinition/DomainResource#dom-6"
+          }
+        ]
+      },
+      "diagnostics": "Constraint failed: dom-6: 'A resource should have narrative for robust management' (defined in http://hl7.org/fhir/StructureDefinition/DomainResource) (Best Practice Recommendation)",
+      "location": [
+        "Bundle.entry[4].resource/*Observation/null*/",
+        "Line[1] Col[5536]"
+      ],
+      "expression": [
+        "Bundle.entry[4].resource/*Observation/null*/"
+      ]
+    }
+  ]
+}
