@@ -41,7 +41,7 @@ describe('parseLegacyCsv, complete row', () => {
   it('reads the patient', () => {
     const record = accepted(COMPLETE_ROW);
 
-    expect(record.patientId).toBe('P0001');
+    expect(record.recordId).toBe('P0001');
     expect(record.mrn).toBe('MRN-10001');
     expect(record.lastName).toBe('Novak');
     expect(record.firstName).toBe('Elena');
@@ -86,7 +86,7 @@ describe('parseLegacyCsv, rejected rows', () => {
 
   it('reports which source row was rejected', () => {
     const row = 'P0023;;Moreau;Theo;18/03/2008;M;RD-160;Marfan syndrome;2019-02-20;ACT;10;;;;;';
-    expect(rejected(row)).toMatchObject({ sourceRow: 2, patientId: 'P0023' });
+    expect(rejected(row)).toMatchObject({ sourceRow: 2, recordId: 'P0023' });
   });
 
   it('rejects a row with no PAT_ID', () => {
@@ -225,21 +225,21 @@ describe('parseLegacyCsv, the shipped export', () => {
   const content = readFileSync(new URL('../data/legacy-export.csv', import.meta.url));
   const result = parseLegacyCsv(content);
 
-  function byPatientId(patientId: string): LegacyRecord {
-    const record = result.records.find((candidate) => candidate.patientId === patientId);
+  function byRecordId(recordId: string): LegacyRecord {
+    const record = result.records.find((candidate) => candidate.recordId === recordId);
     if (record === undefined) {
-      throw new Error(`no record was parsed for ${patientId}`);
+      throw new Error(`no record was parsed for ${recordId}`);
     }
     return record;
   }
 
   it('accepts every row but the two that cannot be interpreted', () => {
     expect(result.records).toHaveLength(23);
-    expect(result.rejected.map((rejection) => rejection.patientId)).toEqual(['P0023', 'P0024']);
+    expect(result.rejected.map((rejection) => rejection.recordId)).toEqual(['P0023', 'P0024']);
   });
 
   it('reads the file despite the byte order mark', () => {
-    expect(byPatientId('P0001').mrn).toBe('MRN-10001');
+    expect(byRecordId('P0001').mrn).toBe('MRN-10001');
   });
 
   it('finds 22 distinct patients across 23 rows', () => {
@@ -248,18 +248,18 @@ describe('parseLegacyCsv, the shipped export', () => {
   });
 
   it('keeps the semicolon inside a quoted field', () => {
-    expect(byPatientId('P0005').notes).toBe(
+    expect(byRecordId('P0005').notes).toBe(
       'family history: father, paternal aunt; genetics confirmed',
     );
   });
 
   it('keeps accented characters intact', () => {
-    expect(byPatientId('P0008').firstName).toBe('Luísa');
-    expect(byPatientId('P0009').lastName).toBe('Müller');
+    expect(byRecordId('P0008').firstName).toBe('Luísa');
+    expect(byRecordId('P0009').lastName).toBe('Müller');
   });
 
   it('reads a result reported below the detection limit', () => {
-    expect(byPatientId('P0003').labResult?.measurement).toEqual({
+    expect(byRecordId('P0003').labResult?.measurement).toEqual({
       value: 0.5,
       comparator: '<',
       unit: 'nmol/h/mg',
@@ -267,12 +267,12 @@ describe('parseLegacyCsv, the shipped export', () => {
   });
 
   it('keeps the local code of a diagnosis that no terminology maps yet', () => {
-    expect(byPatientId('P0013').diagnosis.localCode).toBe('RD-410');
+    expect(byRecordId('P0013').diagnosis.localCode).toBe('RD-410');
   });
 
   it('accepts a patient with no surname', () => {
-    expect(byPatientId('P0020').lastName).toBeUndefined();
-    expect(byPatientId('P0020').firstName).toBe('Ahmed');
+    expect(byRecordId('P0020').lastName).toBeUndefined();
+    expect(byRecordId('P0020').firstName).toBe('Ahmed');
   });
 
   it('warns about the two laboratory results it had to drop', () => {

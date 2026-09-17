@@ -73,7 +73,11 @@ export interface LegacyLabResult {
 export interface LegacyRecord {
   /** Line number in the source file, so findings can be traced back to it. */
   readonly sourceRow: number;
-  readonly patientId: string;
+  /**
+   * The PAT_ID column. Despite its name it identifies the row, not the
+   * patient: the same person appears under two PAT_IDs in the export.
+   */
+  readonly recordId: string;
   /** Medical record number. Identifies the patient across rows. */
   readonly mrn: string;
   readonly lastName: string | undefined;
@@ -91,7 +95,7 @@ export interface LegacyRecord {
 /** A row that could not be interpreted and was left out of the pipeline. */
 export interface RejectedRow {
   readonly sourceRow: number;
-  readonly patientId: string | undefined;
+  readonly recordId: string | undefined;
   readonly reason: string;
 }
 

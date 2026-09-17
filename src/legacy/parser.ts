@@ -65,7 +65,7 @@ export function parseLegacyCsv(content: string | Buffer): ParseResult {
     } else {
       rejected.push({
         sourceRow,
-        patientId: normalizeText(read(record, 'PAT_ID')),
+        recordId: normalizeText(read(record, 'PAT_ID')),
         reason: outcome.reason,
       });
     }
@@ -124,8 +124,8 @@ function parseRow(
   sourceRow: number,
   addWarning: (column: LegacyColumn, message: string) => void,
 ): RowOutcome {
-  const patientId = normalizeText(read(row, 'PAT_ID'));
-  if (patientId === undefined) {
+  const recordId = normalizeText(read(row, 'PAT_ID'));
+  if (recordId === undefined) {
     return { ok: false, reason: 'PAT_ID is empty, the row cannot be traced back to its source.' };
   }
 
@@ -154,7 +154,7 @@ function parseRow(
     ok: true,
     record: {
       sourceRow,
-      patientId,
+      recordId,
       mrn,
       lastName: normalizeText(read(row, 'LAST_NAME')),
       firstName: normalizeText(read(row, 'FIRST_NAME')),
