@@ -224,9 +224,25 @@ describe('mapCondition', () => {
     expect(mapCondition(legacyRecord(), context).resource.subject).toEqual({ reference: 'Patient/abc-789' });
   });
 
-  it('keeps an age of onset of zero, which is a value and not an absence', () => {
+  it('keeps an age of onset of zero as text, since a FHIR Age must be positive', () => {
+    // The server rejected onsetAge 0 with invariant age-1. Zero is still
+    // information, so it is kept in the text form of onset rather than dropped.
     const record = legacyRecord({ diagnosis: legacyDiagnosis({ onsetAgeYears: 0 }) });
-    expect(mapCondition(record, CONTEXT).resource.onsetAge?.value).toBe(0);
+    const { resource, warnings } = mapCondition(record, CONTEXT);
+
+    expect(resource).not.toHaveProperty('onsetAge');
+    expect(resource.onsetString).toBe('0 years');
+    expect(warnings.map((warning) => warning.message)).toEqual([
+      'ONSET_AGE is 0, which a FHIR Age cannot hold, so the onset is kept as text.',
+    ]);
+  });
+
+  it('writes an age of one year or more as a structured Age', () => {
+    const record = legacyRecord({ diagnosis: legacyDiagnosis({ onsetAgeYears: 1 }) });
+    const { resource } = mapCondition(record, CONTEXT);
+
+    expect(resource.onsetAge).toEqual({ value: 1, unit: 'years', system: 'http://unitsofmeasure.org', code: 'a' });
+    expect(resource).not.toHaveProperty('onsetString');
   });
 
   it('leaves out the age of onset and the recorded date when the row has neither', () => {
@@ -437,10 +453,11 @@ describe('mapping the shipped export', () => {
   });
 
   it('warns only about the rows that were built to need a decision', () => {
-    // Rows 3 and 15 have no diagnosis code, row 14 has an unmapped one, and
-    // rows 4 and 22 are beta-glucosidase results, which LOINC does not cover.
+    // Rows 3 and 15 have no diagnosis code, row 14 has an unmapped one, rows 4
+    // and 22 are beta-glucosidase results, which LOINC does not cover, and rows
+    // 7 and 13 are newborn screenings with an age of onset of zero.
     const rows = [...conditions, ...observations].flatMap((entry) => entry.warnings.map((w) => w.sourceRow));
-    expect(rows.sort((a, b) => a - b)).toEqual([3, 4, 14, 15, 22]);
+    expect(rows.sort((a, b) => a - b)).toEqual([3, 4, 7, 13, 14, 15, 22]);
   });
 
   it('points every condition and observation at the patient its row belongs to', () => {

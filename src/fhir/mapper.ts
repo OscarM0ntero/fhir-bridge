@@ -92,7 +92,7 @@ export function mapCondition(record: LegacyRecord, context: MappingContext): Map
     category: [concept(PROBLEM_LIST_ITEM)],
     code: diagnosisCode(record, warn),
     subject: { reference: context.patientReference },
-    ...(diagnosis.onsetAgeYears === undefined ? {} : { onsetAge: ageInYears(diagnosis.onsetAgeYears) }),
+    ...onset(diagnosis.onsetAgeYears, warn),
     ...(diagnosis.recordedDate === undefined
       ? {}
       : { recordedDate: toFhirDateTime(diagnosis.recordedDate, context.timezoneOffset) }),
@@ -210,9 +210,25 @@ function quantity(measurement: LegacyMeasurement, warn: (message: string) => voi
   return { ...base, unit: ucum, system: SYSTEMS.ucum, code: ucum };
 }
 
-/** Age is a Quantity that FHIR requires to be expressed in UCUM time units. */
-function ageInYears(years: number): Age {
-  return { value: years, unit: 'years', system: SYSTEMS.ucum, code: 'a' };
+/**
+ * The age of onset, as an Age when FHIR allows it. An Age must be positive
+ * (invariant age-1), and the export writes 0 for conditions found in the first
+ * year of life, usually by newborn screening. Those are kept as onsetString,
+ * the text form FHIR offers for onsets that do not fit a structured one,
+ * rather than dropped or turned into a range the export never stated.
+ */
+function onset(
+  years: number | undefined,
+  warn: (message: string) => void,
+): { onsetAge: Age } | { onsetString: string } | Record<string, never> {
+  if (years === undefined) {
+    return {};
+  }
+  if (years === 0) {
+    warn('ONSET_AGE is 0, which a FHIR Age cannot hold, so the onset is kept as text.');
+    return { onsetString: '0 years' };
+  }
+  return { onsetAge: { value: years, unit: 'years', system: SYSTEMS.ucum, code: 'a' } };
 }
 
 function rowIdentifier(system: string, record: LegacyRecord): Identifier {
