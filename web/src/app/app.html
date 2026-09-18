@@ -1,0 +1,40 @@
+<header class="app-header">
+  <div>
+    <h1>FHIR Bridge</h1>
+    <p>A legacy rare-disease export, row by row, next to the HL7 FHIR R4 resources it became. All data is synthetic.</p>
+  </div>
+  @if (report.hasValue()) {
+    @let data = report.value();
+    <dl class="summary">
+      <div><dt>Patients</dt><dd>{{ data.summary.patients }}</dd></div>
+      <div><dt>Resources</dt><dd>{{ data.summary.resources }}</dd></div>
+      <div><dt>Rows rejected</dt><dd>{{ data.summary.rejectedRows }}</dd></div>
+      <div><dt>Run</dt><dd>{{ modeLabels[data.mode] }}</dd></div>
+    </dl>
+  }
+</header>
+
+<main>
+  @if (report.isLoading()) {
+    <p class="state">Loading the comparison&hellip;</p>
+  } @else if (report.error()) {
+    <div class="state error" role="alert">
+      <h2>There is no comparison to show yet</h2>
+      <p>
+        The viewer reads <code>out/comparison.json</code>, which the pipeline writes. Run
+        <code>npm start</code> in the repository root, then start the viewer again.
+      </p>
+    </div>
+  } @else if (report.hasValue()) {
+    @let data = report.value();
+    <div class="layout">
+      <aside aria-label="Rows of the export">
+        <app-row-list [rows]="data.rows" [selectedRow]="selectedRow()?.sourceRow" (rowSelected)="select($event)" />
+      </aside>
+      @if (selectedRow(); as row) {
+        <app-row-detail [row]="row" [serverBaseUrl]="data.serverBaseUrl" />
+      }
+    </div>
+    <footer>Generated {{ data.generatedAt | date: 'medium' }} against {{ data.serverBaseUrl }}</footer>
+  }
+</main>

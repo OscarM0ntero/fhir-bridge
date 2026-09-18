@@ -1,0 +1,158 @@
+:host {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1rem;
+  min-height: 0;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--surface);
+}
+
+.panel-header h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.panel-header p {
+  margin: 0.2rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.notice {
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.notice ul {
+  margin: 0.35rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.notice.error {
+  border: 1px solid var(--danger-border);
+  background: var(--danger-soft);
+}
+
+.notice.warning {
+  border: 1px solid var(--warning-border);
+  background: var(--warning-soft);
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+th,
+td {
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+thead th {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.value {
+  min-width: 8rem;
+  font-family: var(--mono);
+  white-space: pre-wrap;
+  /* Break inside a word only when it cannot fit on a line of its own. */
+  overflow-wrap: anywhere;
+}
+
+th[scope='row'] {
+  white-space: nowrap;
+}
+
+.value.missing {
+  color: var(--text-faint);
+  font-style: italic;
+}
+
+.maps-to {
+  color: var(--text-muted);
+}
+
+.tabs {
+  display: flex;
+  gap: 0.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.tabs button {
+  padding: 0.45rem 0.8rem;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--text-muted);
+  font: inherit;
+  cursor: pointer;
+}
+
+.tabs button.active {
+  border-bottom-color: var(--accent);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.resource-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+}
+
+.resource-meta a {
+  color: var(--accent-strong);
+  font-family: var(--mono);
+}
+
+.tag {
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: var(--surface-hover);
+  color: var(--text-muted);
+}
+
+.json {
+  flex: 1;
+  margin: 0;
+  padding: 0.85rem;
+  overflow: auto;
+  border-radius: 0.5rem;
+  background: var(--code-bg);
+  color: var(--code-text);
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.empty {
+  color: var(--text-muted);
+}
+
+@media (max-width: 1100px) {
+  :host {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

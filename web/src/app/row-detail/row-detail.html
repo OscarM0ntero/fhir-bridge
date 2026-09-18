@@ -1,0 +1,81 @@
+<section class="panel" aria-labelledby="legacy-title">
+  <header class="panel-header">
+    <h2 id="legacy-title">Legacy record</h2>
+    <p>Line {{ row().sourceRow }} of the export, exactly as the old system wrote it.</p>
+  </header>
+
+  @if (row().rejectionReason; as reason) {
+    <div class="notice error" role="status"><strong>Rejected:</strong> {{ reason }}</div>
+  }
+  @if (row().warnings.length > 0) {
+    <div class="notice warning" role="status">
+      <strong>What the pipeline had to decide</strong>
+      <ul>
+        @for (warning of row().warnings; track $index) {
+          <li>{{ warning }}</li>
+        }
+      </ul>
+    </div>
+  }
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Column</th>
+          <th scope="col">Value</th>
+          <th scope="col">Becomes</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (field of fields; track field.column) {
+          <tr>
+            <th scope="row"><code>{{ field.column }}</code></th>
+            <td class="value" [class.missing]="!row().legacy[field.column]">{{ showRawValue(row().legacy[field.column]) }}</td>
+            <td class="maps-to">{{ field.mapsTo }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="panel" aria-labelledby="fhir-title">
+  <header class="panel-header">
+    <h2 id="fhir-title">FHIR R4 resources</h2>
+    <p>What the row became, with references as the server stored them.</p>
+  </header>
+
+  @if (row().resources.length === 0) {
+    <p class="empty">This row produced no resources.</p>
+  } @else {
+    <div class="tabs" role="tablist" aria-label="Resources built from this row">
+      @for (item of row().resources; track item.resourceType; let index = $index) {
+        <button
+          type="button"
+          role="tab"
+          [class.active]="index === activeTab()"
+          [attr.aria-selected]="index === activeTab()"
+          (click)="activeTab.set(index)"
+        >
+          {{ item.resourceType }}
+        </button>
+      }
+    </div>
+
+    @if (activeResource(); as item) {
+      <div class="resource-meta">
+        @if (item.serverReference; as reference) {
+          <a [href]="serverBaseUrl() + '/' + reference" target="_blank" rel="noopener noreferrer">{{ reference }}</a>
+          <span class="tag">{{ item.created ? 'created by this run' : 'updated by this run' }}</span>
+        } @else {
+          <span class="tag">not stored on the server in this run</span>
+        }
+        @if (item.builtFromRows.length > 1) {
+          <span class="tag">built from lines {{ item.builtFromRows.join(', ') }}</span>
+        }
+      </div>
+      <pre class="json" tabindex="0" role="tabpanel"><code>{{ item.resource | json }}</code></pre>
+    }
+  }
+</section>

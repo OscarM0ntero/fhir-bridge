@@ -1,0 +1,37 @@
+<div class="filters" role="group" aria-label="Filter rows">
+  @for (option of filters; track option.value) {
+    <button
+      type="button"
+      [class.active]="filter() === option.value"
+      [attr.aria-pressed]="filter() === option.value"
+      (click)="filter.set(option.value)"
+    >
+      {{ option.label }}
+    </button>
+  }
+</div>
+
+<ul class="rows">
+  @for (row of visibleRows(); track row.sourceRow) {
+    <li>
+      <button
+        type="button"
+        class="row"
+        [class.selected]="row.sourceRow === selectedRow()"
+        [attr.aria-current]="row.sourceRow === selectedRow() ? 'true' : null"
+        (click)="rowSelected.emit(row.sourceRow)"
+      >
+        <span class="line">Line {{ row.sourceRow }}</span>
+        <span class="ids">{{ row.recordId ?? '-' }} &middot; {{ row.mrn ?? 'no MRN' }}</span>
+        <span class="badges">
+          <span class="badge" [class]="row.outcome">{{ outcomeLabels[row.outcome] }}</span>
+          @if (row.warnings.length > 0) {
+            <span class="badge warning">{{ row.warnings.length }} warning{{ row.warnings.length === 1 ? '' : 's' }}</span>
+          }
+        </span>
+      </button>
+    </li>
+  } @empty {
+    <li class="empty">No rows match this filter.</li>
+  }
+</ul>
