@@ -1,94 +1,113 @@
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { buildPatientTransaction, type PatientTransaction } from './fhir/bundle.js';
+import { USAGE, UsageError, parseCliArgs, resolveMode, type RunMode } from './cli-args.js';
+import { ConfigError, loadConfig, loadEnvFile, type AppConfig } from './config.js';
+import type { PatientTransaction } from './fhir/bundle.js';
 import { FhirClient, FhirRequestError } from './fhir/client.js';
 import { bundleEntryIndex, isBlocking, type OutcomeIssue } from './fhir/operation-outcome.js';
-import { groupByPatient } from './fhir/patient-groups.js';
-import { uploadPatient, type PatientOutcome } from './fhir/uploader.js';
-import { loadConfig, loadEnvFile } from './config.js';
-import { LegacyParseError, parseLegacyCsv } from './legacy/parser.js';
-import type { ParseResult } from './legacy/types.js';
+import type { PatientOutcome } from './fhir/uploader.js';
+import { LegacyParseError } from './legacy/parser.js';
+import {
+  EXIT_CODES,
+  executeRun,
+  exitCodeFor,
+  prepareRun,
+  summarize,
+  type PipelineReport,
+  type PreparedRun,
+} from './pipeline.js';
+import { OUTPUT_FILES, writeRunOutput } from './report/writer.js';
+
+/** The export file could not be read at all. */
+class InputError extends Error {
+  public constructor(message: string) {
+    super(message);
+    this.name = 'InputError';
+  }
+}
 
 /**
- * Runs the pipeline: read the export, map it, validate each patient against
- * the server and upload the ones that pass.
- *
- *   --offline   map only and write the bundles, without contacting the server
- *   --dry-run   validate against the server but store nothing (or DRY_RUN=true)
+ * The command line front end. It reads arguments and prints; the work itself
+ * happens in the pipeline, which is where the tests are.
  */
-async function main(): Promise<void> {
-  const offline = process.argv.includes('--offline');
+async function main(argv: readonly string[]): Promise<number> {
+  const args = parseCliArgs(argv);
+  if (args.help) {
+    console.log(USAGE);
+    return EXIT_CODES.ok;
+  }
+
   loadEnvFile();
   const config = loadConfig();
-  const dryRun = config.dryRun || process.argv.includes('--dry-run');
-  const outputDir = config.outputDir;
+  const mode = resolveMode(args, config.dryRun);
+  printHeader(config, mode);
 
-  console.log('FHIR Bridge');
-  console.log(`  source    ${config.legacyCsvPath}`);
-  console.log(`  server    ${offline ? 'not contacted (--offline)' : config.fhirBaseUrl}`);
-  console.log(`  mode      ${offline ? 'offline' : dryRun ? 'dry run, nothing is stored' : 'validate and upload'}`);
-  console.log(`  timezone  ${config.sourceTimezoneOffset} for timestamps that carry no zone`);
+  const prepared = prepareRun(readExport(config.legacyCsvPath), config.sourceTimezoneOffset);
+  printPrepared(prepared);
 
-  const parsed = parseLegacyCsv(readFileSync(config.legacyCsvPath));
-  printParsing(parsed);
-
-  const { groups, warnings: mergeWarnings } = groupByPatient(parsed.records);
-  const transactions = groups.map((group) =>
-    buildPatientTransaction(group, { timezoneOffset: config.sourceTimezoneOffset }),
-  );
-  const mappingWarnings = [...mergeWarnings, ...transactions.flatMap((transaction) => transaction.warnings)];
-  const resourceCount = transactions.reduce((total, transaction) => total + transaction.sources.length, 0);
-
-  console.log('\nMapping');
-  console.log(`  ${String(groups.length)} patients, ${String(resourceCount)} resources`);
-  for (const warning of mappingWarnings) {
-    console.log(`  warning   line ${String(warning.sourceRow)}  ${warning.message}`);
+  if (mode !== 'offline') {
+    console.log(mode === 'dry-run' ? '\nValidating (dry run, nothing is stored)' : '\nValidating and uploading');
   }
 
-  writeBundles(outputDir, transactions, parsed);
-  if (offline) {
-    console.log(`\nWrote the bundles to ${join(outputDir, 'bundles')}. The server was not contacted.`);
-    return;
-  }
-
-  console.log(dryRun ? '\nValidating (dry run)' : '\nValidating and uploading');
   const client = new FhirClient({
     baseUrl: config.fhirBaseUrl,
     authToken: config.fhirAuthToken,
     timeoutMs: config.requestTimeoutMs,
   });
+  const report = await executeRun(client, prepared, mode, { onPatient: printOutcome });
 
-  const outcomes: PatientOutcome[] = [];
-  for (const transaction of transactions) {
-    const outcome = await uploadPatient(client, transaction, { dryRun });
-    outcomes.push(outcome);
-    printOutcome(transaction, outcome);
-  }
+  writeRunOutput(config.outputDir, report);
+  printSummary(report, config.outputDir);
+  return exitCodeFor(report);
+}
 
-  writeFileSync(join(outputDir, 'results.json'), `${JSON.stringify(outcomes, null, 2)}\n`);
-  printSummary(outcomes, dryRun, outputDir);
-
-  if (outcomes.some((outcome) => outcome.upload.kind === 'rejected' || !outcome.validation.valid)) {
-    process.exitCode = 1;
+function readExport(path: string): Buffer {
+  try {
+    return readFileSync(path);
+  } catch (error) {
+    const code = error instanceof Error && 'code' in error ? error.code : undefined;
+    const reason = code === 'ENOENT' ? 'the file does not exist' : error instanceof Error ? error.message : String(error);
+    throw new InputError(`Cannot read the legacy export at ${path}: ${reason}. Check LEGACY_CSV_PATH in .env.`);
   }
 }
 
-function printParsing(parsed: ParseResult): void {
+function printHeader(config: AppConfig, mode: RunMode): void {
+  const modes: Record<RunMode, string> = {
+    offline: 'offline, the server is not contacted',
+    'dry-run': 'dry run, validate only',
+    upload: 'validate and upload',
+  };
+
+  console.log('FHIR Bridge');
+  console.log(`  source    ${config.legacyCsvPath}`);
+  console.log(`  server    ${config.fhirBaseUrl}`);
+  console.log(`  mode      ${modes[mode]}`);
+  console.log(`  timezone  ${config.sourceTimezoneOffset}, assumed for timestamps that carry none`);
+}
+
+function printPrepared({ parse, mappingWarnings, transactions }: PreparedRun): void {
   console.log('\nParsing');
   console.log(
-    `  ${String(parsed.records.length)} rows accepted, ${String(parsed.rejected.length)} rejected, ${String(parsed.warnings.length)} warnings`,
+    `  ${String(parse.records.length)} rows accepted, ${String(parse.rejected.length)} rejected, ${String(parse.warnings.length)} warnings`,
   );
-  for (const rejection of parsed.rejected) {
+  for (const rejection of parse.rejected) {
     console.log(`  rejected  line ${String(rejection.sourceRow)}  ${rejection.recordId ?? '-'}  ${rejection.reason}`);
   }
-  for (const warning of parsed.warnings) {
+  for (const warning of parse.warnings) {
     console.log(`  warning   line ${String(warning.sourceRow)}  ${warning.column}  ${warning.message}`);
+  }
+
+  const resources = transactions.reduce((total, transaction) => total + transaction.sources.length, 0);
+  console.log('\nMapping');
+  console.log(`  ${String(transactions.length)} patients, ${String(resources)} resources`);
+  for (const warning of [...mappingWarnings].sort((a, b) => a.sourceRow - b.sourceRow)) {
+    console.log(`  warning   line ${String(warning.sourceRow)}  ${warning.message}`);
   }
 }
 
 function printOutcome(transaction: PatientTransaction, outcome: PatientOutcome): void {
-  const warnings = outcome.validation.issues.length - outcome.validation.issues.filter(isBlocking).length;
+  const warnings = outcome.validation.issues.filter((issue) => !isBlocking(issue)).length;
   const label = transaction.mrn.padEnd(12);
   const { upload } = outcome;
 
@@ -96,21 +115,19 @@ function printOutcome(transaction: PatientTransaction, outcome: PatientOutcome):
     case 'committed': {
       const created = upload.entries.filter((entry) => entry.created).length;
       const updated = upload.entries.length - created;
-      console.log(
-        `  ${label} uploaded  ${String(created)} created, ${String(updated)} updated  (${String(warnings)} warnings)`,
-      );
+      console.log(`  ${label} uploaded  ${String(created)} created, ${String(updated)} updated  (${String(warnings)} warnings)`);
       break;
     }
     case 'skipped':
       if (upload.reason === 'dry-run') {
-        console.log(`  ${label} valid     not stored, dry run  (${String(warnings)} warnings)`);
+        console.log(`  ${label} valid     (${String(warnings)} warnings)`);
       } else {
         console.log(`  ${label} INVALID   not sent`);
         printErrors(transaction, outcome.validation.issues);
       }
       break;
     case 'rejected':
-      console.log(`  ${label} REFUSED   HTTP ${String(upload.httpStatus)}, nothing stored`);
+      console.log(`  ${label} REFUSED   HTTP ${String(upload.httpStatus)}, nothing was stored`);
       printErrors(transaction, upload.issues);
       break;
   }
@@ -132,54 +149,52 @@ function where(transaction: PatientTransaction, issue: OutcomeIssue): string {
   return `${source.resourceType} from line ${source.sourceRows.join(', ')}`;
 }
 
-function printSummary(outcomes: readonly PatientOutcome[], dryRun: boolean, outputDir: string): void {
-  const refused = outcomes.filter((outcome) => outcome.upload.kind === 'rejected').length;
-  const uploaded = outcomes.filter((outcome) => outcome.upload.kind === 'committed').length;
-  const invalid = outcomes.filter((outcome) => !outcome.validation.valid).length;
-  const entries = outcomes.flatMap((outcome) => (outcome.upload.kind === 'committed' ? outcome.upload.entries : []));
-  const created = entries.filter((entry) => entry.created).length;
+function printSummary(report: PipelineReport, outputDir: string): void {
+  const summary = summarize(report);
 
   console.log('\nSummary');
-  if (dryRun) {
-    console.log(`  ${String(outcomes.length)} patients validated, ${String(invalid)} invalid. Nothing was stored.`);
-  } else {
-    console.log(
-      `  ${String(outcomes.length)} patients: ${String(uploaded)} uploaded, ${String(invalid)} invalid, ${String(refused)} refused`,
-    );
-    console.log(
-      `  ${String(entries.length)} resources: ${String(created)} created, ${String(entries.length - created)} updated`,
-    );
+  switch (report.mode) {
+    case 'offline':
+      console.log(`  ${String(summary.patients)} patients mapped. The server was not contacted.`);
+      break;
+    case 'dry-run':
+      console.log(
+        `  ${String(summary.patients)} patients validated, ${String(summary.invalid)} invalid. Nothing was stored.`,
+      );
+      break;
+    case 'upload':
+      console.log(
+        `  ${String(summary.patients)} patients: ${String(summary.uploaded)} uploaded, ${String(summary.invalid)} invalid, ${String(summary.refused)} refused`,
+      );
+      console.log(
+        `  ${String(summary.created + summary.updated)} resources: ${String(summary.created)} created, ${String(summary.updated)} updated`,
+      );
+      break;
   }
-  console.log(`  results written to ${join(outputDir, 'results.json')}`);
+  console.log(`  ${String(summary.rejectedRows)} rows of the export were rejected, see ${join(outputDir, OUTPUT_FILES.parseReport)}`);
+  console.log(`  bundles written to ${join(outputDir, OUTPUT_FILES.bundles)}`);
+  if (report.mode !== 'offline') {
+    console.log(`  results written to ${join(outputDir, OUTPUT_FILES.results)}`);
+  }
 }
 
-function writeBundles(outputDir: string, transactions: readonly PatientTransaction[], parsed: ParseResult): void {
-  rmSync(join(outputDir, 'bundles'), { recursive: true, force: true });
-  mkdirSync(join(outputDir, 'bundles'), { recursive: true });
-
-  for (const transaction of transactions) {
-    writeFileSync(
-      join(outputDir, 'bundles', `${transaction.mrn}.json`),
-      `${JSON.stringify(transaction.bundle, null, 2)}\n`,
-    );
-  }
-
-  writeFileSync(
-    join(outputDir, 'parse-report.json'),
-    `${JSON.stringify({ rejected: parsed.rejected, warnings: parsed.warnings }, null, 2)}\n`,
-  );
+function exitWith(code: number, message: string): void {
+  console.error(message);
+  process.exitCode = code;
 }
 
 try {
-  await main();
+  process.exitCode = await main(process.argv.slice(2));
 } catch (error) {
-  if (error instanceof LegacyParseError) {
-    console.error(`\n${error.name}: ${error.message}`);
-    process.exitCode = 1;
+  if (error instanceof UsageError) {
+    exitWith(EXIT_CODES.badInput, `${error.message}\n\n${USAGE}`);
+  } else if (error instanceof ConfigError || error instanceof InputError || error instanceof LegacyParseError) {
+    exitWith(EXIT_CODES.badInput, `\n${error.message}`);
   } else if (error instanceof FhirRequestError) {
-    console.error(`\n${error.name}: ${error.message}`);
-    console.error('Every upload is a conditional update, so the run can simply be started again.');
-    process.exitCode = 1;
+    exitWith(
+      EXIT_CODES.serverUnavailable,
+      `\n${error.message}\nEvery upload is a conditional update, so the run can simply be started again.`,
+    );
   } else {
     throw error;
   }
