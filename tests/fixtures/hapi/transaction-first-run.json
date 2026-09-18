@@ -1,0 +1,168 @@
+{
+  "resourceType": "Bundle",
+  "id": "7c053def-694f-486c-9b5a-0c6b75c59981",
+  "type": "transaction-response",
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://hapi.fhir.org/baseR4"
+    }
+  ],
+  "entry": [
+    {
+      "response": {
+        "status": "201 Created",
+        "location": "Patient/28886/_history/1",
+        "etag": "1",
+        "lastModified": "2026-09-18T07:50:01.044-04:00",
+        "outcome": {
+          "resourceType": "OperationOutcome",
+          "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h1>Operation Outcome</h1><table border=\"0\"><tr><td style=\"font-weight: bold;\">INFORMATION</td><td>[]</td><td>Successfully conditionally updated resource &quot;Patient/28886/_history/1&quot;. Created resource because no existing resource matched URL &quot;Patient?identifier=http%3A%2F%2Fexample.org%2Ffhir%2Fsid%2Flegacy-mrn|MRN-10001&quot;. Took 15ms.</td></tr></table></div>"
+          },
+          "issue": [
+            {
+              "severity": "information",
+              "code": "informational",
+              "details": {
+                "coding": [
+                  {
+                    "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                    "code": "SUCCESSFUL_UPDATE_NO_CONDITIONAL_MATCH",
+                    "display": "Conditional update succeeded: no existing resource matched the conditional URL so a new resource was created."
+                  }
+                ]
+              },
+              "diagnostics": "Successfully conditionally updated resource \"Patient/28886/_history/1\". Created resource because no existing resource matched URL \"Patient?identifier=http%3A%2F%2Fexample.org%2Ffhir%2Fsid%2Flegacy-mrn|MRN-10001\". Took 15ms."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "response": {
+        "status": "201 Created",
+        "location": "Condition/28887/_history/1",
+        "etag": "1",
+        "lastModified": "2026-09-18T07:50:01.044-04:00",
+        "outcome": {
+          "resourceType": "OperationOutcome",
+          "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h1>Operation Outcome</h1><table border=\"0\"><tr><td style=\"font-weight: bold;\">INFORMATION</td><td>[]</td><td>Successfully conditionally updated resource &quot;Condition/28887/_history/1&quot;. Created resource because no existing resource matched URL &quot;Condition?identifier=http%3A%2F%2Fexample.org%2Ffhir%2Fsid%2Flegacy-record-id|P0001&quot;. Took 1ms.</td></tr></table></div>"
+          },
+          "issue": [
+            {
+              "severity": "information",
+              "code": "informational",
+              "details": {
+                "coding": [
+                  {
+                    "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                    "code": "SUCCESSFUL_UPDATE_NO_CONDITIONAL_MATCH",
+                    "display": "Conditional update succeeded: no existing resource matched the conditional URL so a new resource was created."
+                  }
+                ]
+              },
+              "diagnostics": "Successfully conditionally updated resource \"Condition/28887/_history/1\". Created resource because no existing resource matched URL \"Condition?identifier=http%3A%2F%2Fexample.org%2Ffhir%2Fsid%2Flegacy-record-id|P0001\". Took 1ms."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "response": {
+        "status": "201 Created",
+        "location": "Observation/28888/_history/1",
+        "etag": "1",
+        "lastModified": "2026-09-18T07:50:01.044-04:00",
+        "outcome": {
+          "resourceType": "OperationOutcome",
+          "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h1>Operation Outcome</h1><table border=\"0\"><tr><td style=\"font-weight: bold;\">INFORMATION</td><td>[]</td><td>Successfully conditionally updated resource &quot;Observation/28888/_history/1&quot;. Created resource because no existing resource matched URL &quot;Observation?identifier=http%3A%2F%2Fexample.org%2Ffhir%2Fsid%2Flegacy-lab-result|P0001&quot;. Took 1ms.</td></tr></table></div>"
+          },
+          "issue": [
+            {
+              "severity": "information",
+              "code": "informational",
+              "details": {
+                "coding": [
+                  {
+                    "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                    "code": "SUCCESSFUL_UPDATE_NO_CONDITIONAL_MATCH",
+                    "display": "Conditional update succeeded: no existing resource matched the conditional URL so a new resource was created."
+                  }
+                ]
+              },
+              "diagnostics": "Successfully conditionally updated resource \"Observation/28888/_history/1\". Created resource because no existing resource matched URL \"Observation?identifier=http%3A%2F%2Fexample.org%2Ffhir%2Fsid%2Flegacy-lab-result|P0001\". Took 1ms."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "response": {
+        "status": "201 Created",
+        "location": "Condition/28889/_history/1",
+        "etag": "1",
+        "lastModified": "2026-09-18T07:50:01.044-04:00",
+        "outcome": {
+          "resourceType": "OperationOutcome",
+          "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h1>Operation Outcome</h1><table border=\"0\"><tr><td style=\"font-weight: bold;\">INFORMATION</td><td>[]</td><td>Successfully conditionally updated resource &quot;Condition/28889/_history/1&quot;. Created resource because no existing resource matched URL &quot;Condition?identifier=http%3A%2F%2Fexample.org%2Ffhir%2Fsid%2Flegacy-record-id|P0003&quot;. Took 1ms.</td></tr></table></div>"
+          },
+          "issue": [
+            {
+              "severity": "information",
+              "code": "informational",
+              "details": {
+                "coding": [
+                  {
+                    "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                    "code": "SUCCESSFUL_UPDATE_NO_CONDITIONAL_MATCH",
+                    "display": "Conditional update succeeded: no existing resource matched the conditional URL so a new resource was created."
+                  }
+                ]
+              },
+              "diagnostics": "Successfully conditionally updated resource \"Condition/28889/_history/1\". Created resource because no existing resource matched URL \"Condition?identifier=http%3A%2F%2Fexample.org%2Ffhir%2Fsid%2Flegacy-record-id|P0003\". Took 1ms."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "response": {
+        "status": "201 Created",
+        "location": "Observation/28890/_history/1",
+        "etag": "1",
+        "lastModified": "2026-09-18T07:50:01.044-04:00",
+        "outcome": {
+          "resourceType": "OperationOutcome",
+          "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h1>Operation Outcome</h1><table border=\"0\"><tr><td style=\"font-weight: bold;\">INFORMATION</td><td>[]</td><td>Successfully conditionally updated resource &quot;Observation/28890/_history/1&quot;. Created resource because no existing resource matched URL &quot;Observation?identifier=http%3A%2F%2Fexample.org%2Ffhir%2Fsid%2Flegacy-lab-result|P0003&quot;. Took 1ms.</td></tr></table></div>"
+          },
+          "issue": [
+            {
+              "severity": "information",
+              "code": "informational",
+              "details": {
+                "coding": [
+                  {
+                    "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                    "code": "SUCCESSFUL_UPDATE_NO_CONDITIONAL_MATCH",
+                    "display": "Conditional update succeeded: no existing resource matched the conditional URL so a new resource was created."
+                  }
+                ]
+              },
+              "diagnostics": "Successfully conditionally updated resource \"Observation/28890/_history/1\". Created resource because no existing resource matched URL \"Observation?identifier=http%3A%2F%2Fexample.org%2Ffhir%2Fsid%2Flegacy-lab-result|P0003\". Took 1ms."
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

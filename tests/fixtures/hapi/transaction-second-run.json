@@ -1,0 +1,163 @@
+{
+  "resourceType": "Bundle",
+  "id": "d8dd51f1-ffa4-4d7b-825a-8665746e136f",
+  "type": "transaction-response",
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://hapi.fhir.org/baseR4"
+    }
+  ],
+  "entry": [
+    {
+      "response": {
+        "status": "200 OK",
+        "location": "Patient/28886/_history/1",
+        "etag": "1",
+        "outcome": {
+          "resourceType": "OperationOutcome",
+          "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h1>Operation Outcome</h1><table border=\"0\"><tr><td style=\"font-weight: bold;\">INFORMATION</td><td>[]</td><td>Successfully conditionally updated resource &quot;Patient/28886/_history/1&quot; with no changes detected. Existing resource matched URL &quot;Patient?identifier=http%3A%2F%2Fexample.org%2Ffhir%2Fsid%2Flegacy-mrn|MRN-10001&quot;.</td></tr></table></div>"
+          },
+          "issue": [
+            {
+              "severity": "information",
+              "code": "informational",
+              "details": {
+                "coding": [
+                  {
+                    "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                    "code": "SUCCESSFUL_UPDATE_WITH_CONDITIONAL_MATCH_NO_CHANGE",
+                    "display": "Conditional update succeeded: an existing resource matched the conditional URL and was updated, but no changes were detected so no action was taken."
+                  }
+                ]
+              },
+              "diagnostics": "Successfully conditionally updated resource \"Patient/28886/_history/1\" with no changes detected. Existing resource matched URL \"Patient?identifier=http%3A%2F%2Fexample.org%2Ffhir%2Fsid%2Flegacy-mrn|MRN-10001\"."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "response": {
+        "status": "200 OK",
+        "location": "Condition/28887/_history/1",
+        "etag": "1",
+        "outcome": {
+          "resourceType": "OperationOutcome",
+          "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h1>Operation Outcome</h1><table border=\"0\"><tr><td style=\"font-weight: bold;\">INFORMATION</td><td>[]</td><td>Successfully conditionally updated resource &quot;Condition/28887/_history/1&quot; with no changes detected. Existing resource matched URL &quot;Condition?identifier=http%3A%2F%2Fexample.org%2Ffhir%2Fsid%2Flegacy-record-id|P0001&quot;.</td></tr></table></div>"
+          },
+          "issue": [
+            {
+              "severity": "information",
+              "code": "informational",
+              "details": {
+                "coding": [
+                  {
+                    "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                    "code": "SUCCESSFUL_UPDATE_WITH_CONDITIONAL_MATCH_NO_CHANGE",
+                    "display": "Conditional update succeeded: an existing resource matched the conditional URL and was updated, but no changes were detected so no action was taken."
+                  }
+                ]
+              },
+              "diagnostics": "Successfully conditionally updated resource \"Condition/28887/_history/1\" with no changes detected. Existing resource matched URL \"Condition?identifier=http%3A%2F%2Fexample.org%2Ffhir%2Fsid%2Flegacy-record-id|P0001\"."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "response": {
+        "status": "200 OK",
+        "location": "Observation/28888/_history/1",
+        "etag": "1",
+        "outcome": {
+          "resourceType": "OperationOutcome",
+          "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h1>Operation Outcome</h1><table border=\"0\"><tr><td style=\"font-weight: bold;\">INFORMATION</td><td>[]</td><td>Successfully conditionally updated resource &quot;Observation/28888/_history/1&quot; with no changes detected. Existing resource matched URL &quot;Observation?identifier=http%3A%2F%2Fexample.org%2Ffhir%2Fsid%2Flegacy-lab-result|P0001&quot;.</td></tr></table></div>"
+          },
+          "issue": [
+            {
+              "severity": "information",
+              "code": "informational",
+              "details": {
+                "coding": [
+                  {
+                    "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                    "code": "SUCCESSFUL_UPDATE_WITH_CONDITIONAL_MATCH_NO_CHANGE",
+                    "display": "Conditional update succeeded: an existing resource matched the conditional URL and was updated, but no changes were detected so no action was taken."
+                  }
+                ]
+              },
+              "diagnostics": "Successfully conditionally updated resource \"Observation/28888/_history/1\" with no changes detected. Existing resource matched URL \"Observation?identifier=http%3A%2F%2Fexample.org%2Ffhir%2Fsid%2Flegacy-lab-result|P0001\"."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "response": {
+        "status": "200 OK",
+        "location": "Condition/28889/_history/1",
+        "etag": "1",
+        "outcome": {
+          "resourceType": "OperationOutcome",
+          "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h1>Operation Outcome</h1><table border=\"0\"><tr><td style=\"font-weight: bold;\">INFORMATION</td><td>[]</td><td>Successfully conditionally updated resource &quot;Condition/28889/_history/1&quot; with no changes detected. Existing resource matched URL &quot;Condition?identifier=http%3A%2F%2Fexample.org%2Ffhir%2Fsid%2Flegacy-record-id|P0003&quot;.</td></tr></table></div>"
+          },
+          "issue": [
+            {
+              "severity": "information",
+              "code": "informational",
+              "details": {
+                "coding": [
+                  {
+                    "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                    "code": "SUCCESSFUL_UPDATE_WITH_CONDITIONAL_MATCH_NO_CHANGE",
+                    "display": "Conditional update succeeded: an existing resource matched the conditional URL and was updated, but no changes were detected so no action was taken."
+                  }
+                ]
+              },
+              "diagnostics": "Successfully conditionally updated resource \"Condition/28889/_history/1\" with no changes detected. Existing resource matched URL \"Condition?identifier=http%3A%2F%2Fexample.org%2Ffhir%2Fsid%2Flegacy-record-id|P0003\"."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "response": {
+        "status": "200 OK",
+        "location": "Observation/28890/_history/1",
+        "etag": "1",
+        "outcome": {
+          "resourceType": "OperationOutcome",
+          "text": {
+            "status": "generated",
+            "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h1>Operation Outcome</h1><table border=\"0\"><tr><td style=\"font-weight: bold;\">INFORMATION</td><td>[]</td><td>Successfully conditionally updated resource &quot;Observation/28890/_history/1&quot; with no changes detected. Existing resource matched URL &quot;Observation?identifier=http%3A%2F%2Fexample.org%2Ffhir%2Fsid%2Flegacy-lab-result|P0003&quot;.</td></tr></table></div>"
+          },
+          "issue": [
+            {
+              "severity": "information",
+              "code": "informational",
+              "details": {
+                "coding": [
+                  {
+                    "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                    "code": "SUCCESSFUL_UPDATE_WITH_CONDITIONAL_MATCH_NO_CHANGE",
+                    "display": "Conditional update succeeded: an existing resource matched the conditional URL and was updated, but no changes were detected so no action was taken."
+                  }
+                ]
+              },
+              "diagnostics": "Successfully conditionally updated resource \"Observation/28890/_history/1\" with no changes detected. Existing resource matched URL \"Observation?identifier=http%3A%2F%2Fexample.org%2Ffhir%2Fsid%2Flegacy-lab-result|P0003\"."
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

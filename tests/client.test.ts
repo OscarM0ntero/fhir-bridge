@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 
+import type { Bundle } from 'fhir/r4.js';
 import { describe, expect, it } from 'vitest';
 
 import { FhirClient, FhirRequestError, type FetchLike } from '../src/fhir/client.js';
@@ -159,5 +160,62 @@ describe('FhirClient.validate, when the server cannot be understood', () => {
     const { client } = clientWith(timeout);
 
     await expect(client.validate(PATIENT)).rejects.toThrow(/no answer within 5000 ms/);
+  });
+});
+
+describe('FhirClient.transaction', () => {
+  const BUNDLE: Bundle = { resourceType: 'Bundle', type: 'transaction', entry: [] };
+
+  it('posts the bundle to the base URL, where FHIR expects transactions', async () => {
+    const { client, calls } = clientWith(jsonResponse(fixture('transaction-first-run')));
+    await client.transaction(BUNDLE);
+
+    expect(calls[0]?.url).toBe('https://example.org/fhir');
+    expect(calls[0]?.init.method).toBe('POST');
+    expect(calls[0]?.init.body).toBe(JSON.stringify(BUNDLE));
+  });
+
+  it('reports a committed transaction with what happened to each entry', async () => {
+    const { client } = clientWith(jsonResponse(fixture('transaction-first-run')));
+    const report = await client.transaction(BUNDLE);
+
+    expect(report.committed).toBe(true);
+    expect(report.committed && report.entries.map((entry) => entry.reference)).toEqual([
+      'Patient/28886',
+      'Condition/28887',
+      'Observation/28888',
+      'Condition/28889',
+      'Observation/28890',
+    ]);
+  });
+
+  it('reports a refused transaction with the reasons the server gave', async () => {
+    const { client } = clientWith(jsonResponse(fixture('transaction-rejected'), 400));
+    const report = await client.transaction(BUNDLE);
+
+    expect(report.committed).toBe(false);
+    expect(report.httpStatus).toBe(400);
+    expect(!report.committed && report.issues[0]?.message).toContain('Unknown AdministrativeGender');
+  });
+
+  it('throws when a successful status comes with an OperationOutcome instead of a response', async () => {
+    // An OperationOutcome on a 2xx would mean the server claims success but
+    // says nothing about the entries, so there is nothing to pair with rows.
+    const outcome = JSON.stringify({ resourceType: 'OperationOutcome', issue: [] });
+    const { client } = clientWith(jsonResponse(outcome, 200));
+
+    await expect(client.transaction(BUNDLE)).rejects.toThrow(FhirRequestError);
+  });
+
+  it('throws when the answer is some other kind of bundle', async () => {
+    const { client } = clientWith(jsonResponse(JSON.stringify({ resourceType: 'Bundle', type: 'searchset' })));
+
+    await expect(client.transaction(BUNDLE)).rejects.toThrow(/neither a transaction response nor an OperationOutcome/);
+  });
+
+  it('throws when the server cannot be reached', async () => {
+    const { client } = clientWith(new TypeError('fetch failed'));
+
+    await expect(client.transaction(BUNDLE)).rejects.toThrow(/could not be reached/);
   });
 });

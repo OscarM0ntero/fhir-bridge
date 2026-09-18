@@ -1,6 +1,7 @@
-import type { FhirResource } from 'fhir/r4.js';
+import type { Bundle, FhirResource } from 'fhir/r4.js';
 
 import { isBlocking, readOutcomeIssues, type OutcomeIssue } from './operation-outcome.js';
+import { readTransactionResponse, type EntryOutcome } from './transaction-response.js';
 
 /** The part of fetch this client uses. Injected so tests stay off the network. */
 export type FetchLike = (url: string, init: RequestInit) => Promise<Response>;
@@ -20,6 +21,15 @@ export interface ValidationReport {
   readonly httpStatus: number;
   readonly issues: readonly OutcomeIssue[];
 }
+
+/**
+ * What happened to a transaction. It either went through as a whole, or the
+ * server refused it as a whole and stored nothing: that is the point of
+ * sending a patient's resources as one transaction.
+ */
+export type TransactionReport =
+  | { readonly committed: true; readonly httpStatus: number; readonly entries: readonly EntryOutcome[] }
+  | { readonly committed: false; readonly httpStatus: number; readonly issues: readonly OutcomeIssue[] };
 
 /** The server could not be reached, or answered something unusable. */
 export class FhirRequestError extends Error {
@@ -70,6 +80,31 @@ export class FhirClient {
       httpStatus: response.status,
       issues,
     };
+  }
+
+  /**
+   * Sends a transaction bundle. A refusal is a normal answer, carried in the
+   * report; only an unreachable or unintelligible server throws.
+   */
+  public async transaction(bundle: Bundle): Promise<TransactionReport> {
+    const url = this.baseUrl;
+    const response = await this.send(url, JSON.stringify(bundle));
+    const body = await readJson(response, url);
+
+    const entries = response.ok ? readTransactionResponse(body) : undefined;
+    if (entries !== undefined) {
+      return { committed: true, httpStatus: response.status, entries };
+    }
+
+    const issues = readOutcomeIssues(body);
+    if (issues !== undefined && !response.ok) {
+      return { committed: false, httpStatus: response.status, issues };
+    }
+
+    throw new FhirRequestError(
+      `${url} answered a transaction with HTTP ${String(response.status)} and neither a transaction response nor an OperationOutcome.`,
+      { status: response.status },
+    );
   }
 
   private async send(url: string, body: string): Promise<Response> {

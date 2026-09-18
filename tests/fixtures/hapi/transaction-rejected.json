@@ -1,0 +1,14 @@
+{
+  "resourceType": "OperationOutcome",
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h1>Operation Outcome</h1><table border=\"0\"><tr><td style=\"font-weight: bold;\">ERROR</td><td>[]</td><td>HAPI-0450: Failed to parse request body as JSON resource. Error was: HAPI-1821: [element=&quot;gender&quot;] Invalid attribute value &quot;woman&quot;: Unknown AdministrativeGender code 'woman'</td></tr></table></div>"
+  },
+  "issue": [
+    {
+      "severity": "error",
+      "code": "processing",
+      "diagnostics": "HAPI-0450: Failed to parse request body as JSON resource. Error was: HAPI-1821: [element=\"gender\"] Invalid attribute value \"woman\": Unknown AdministrativeGender code 'woman'"
+    }
+  ]
+}
