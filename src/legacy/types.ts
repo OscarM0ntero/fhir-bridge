@@ -97,6 +97,8 @@ export interface RejectedRow {
   readonly sourceRow: number;
   readonly recordId: string | undefined;
   readonly reason: string;
+  /** The untouched row, so a rejection can be shown next to what was wrong with it. */
+  readonly raw: RawLegacyRow;
 }
 
 /** A recoverable problem: the row is kept, part of its content is not. */

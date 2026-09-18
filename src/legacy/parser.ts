@@ -67,6 +67,7 @@ export function parseLegacyCsv(content: string | Buffer): ParseResult {
         sourceRow,
         recordId: normalizeText(read(record, 'PAT_ID')),
         reason: outcome.reason,
+        raw: record,
       });
     }
   }

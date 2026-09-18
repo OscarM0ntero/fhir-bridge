@@ -57,7 +57,10 @@ async function main(argv: readonly string[]): Promise<number> {
   });
   const report = await executeRun(client, prepared, mode, { onPatient: printOutcome });
 
-  writeRunOutput(config.outputDir, report);
+  writeRunOutput(config.outputDir, report, {
+    serverBaseUrl: config.fhirBaseUrl,
+    generatedAt: new Date().toISOString(),
+  });
   printSummary(report, config.outputDir);
   return exitCodeFor(report);
 }
@@ -173,6 +176,7 @@ function printSummary(report: PipelineReport, outputDir: string): void {
   }
   console.log(`  ${String(summary.rejectedRows)} rows of the export were rejected, see ${join(outputDir, OUTPUT_FILES.parseReport)}`);
   console.log(`  bundles written to ${join(outputDir, OUTPUT_FILES.bundles)}`);
+  console.log(`  side-by-side data written to ${join(outputDir, OUTPUT_FILES.comparison)}`);
   if (report.mode !== 'offline') {
     console.log(`  results written to ${join(outputDir, OUTPUT_FILES.results)}`);
   }

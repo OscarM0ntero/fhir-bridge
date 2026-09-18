@@ -24,6 +24,8 @@ function readJson(path: string): unknown {
   return JSON.parse(readFileSync(path, 'utf8')) as unknown;
 }
 
+const CONTEXT = { serverBaseUrl: 'https://example.org/fhir', generatedAt: '2026-09-18T12:00:00.000Z' };
+
 let outputDir = '';
 
 beforeEach(() => {
@@ -36,7 +38,7 @@ afterEach(() => {
 
 describe('writeRunOutput', () => {
   it('writes one bundle per patient', async () => {
-    writeRunOutput(outputDir, await offlineReport());
+    writeRunOutput(outputDir, await offlineReport(), CONTEXT);
 
     const files = readdirSync(join(outputDir, 'bundles'));
     expect(files).toHaveLength(22);
@@ -44,7 +46,7 @@ describe('writeRunOutput', () => {
   });
 
   it('writes each bundle as the transaction it is', async () => {
-    writeRunOutput(outputDir, await offlineReport());
+    writeRunOutput(outputDir, await offlineReport(), CONTEXT);
 
     expect(readJson(join(outputDir, 'bundles', 'MRN-10001.json'))).toMatchObject({
       resourceType: 'Bundle',
@@ -53,7 +55,7 @@ describe('writeRunOutput', () => {
   });
 
   it('writes the rejected rows and every warning to the parse report', async () => {
-    writeRunOutput(outputDir, await offlineReport());
+    writeRunOutput(outputDir, await offlineReport(), CONTEXT);
     const parseReport = readJson(join(outputDir, 'parse-report.json')) as Record<string, unknown[]>;
 
     expect(parseReport['rejected']).toHaveLength(2);
@@ -65,7 +67,7 @@ describe('writeRunOutput', () => {
     mkdirSync(join(outputDir, 'bundles'));
     writeFileSync(join(outputDir, 'bundles', 'MRN-GONE.json'), '{}');
 
-    writeRunOutput(outputDir, await offlineReport());
+    writeRunOutput(outputDir, await offlineReport(), CONTEXT);
 
     expect(existsSync(join(outputDir, 'bundles', 'MRN-GONE.json'))).toBe(false);
   });
@@ -73,7 +75,7 @@ describe('writeRunOutput', () => {
   it('does not leave the results of an earlier upload next to an offline run', async () => {
     writeFileSync(join(outputDir, 'results.json'), '[]');
 
-    writeRunOutput(outputDir, await offlineReport());
+    writeRunOutput(outputDir, await offlineReport(), CONTEXT);
 
     expect(existsSync(join(outputDir, 'results.json'))).toBe(false);
   });
@@ -81,7 +83,7 @@ describe('writeRunOutput', () => {
   it('writes the results of a run that reached the server', async () => {
     const report = { ...(await offlineReport()), mode: 'dry-run' as const };
 
-    writeRunOutput(outputDir, report);
+    writeRunOutput(outputDir, report, CONTEXT);
 
     expect(readJson(join(outputDir, 'results.json'))).toEqual([]);
   });
@@ -89,7 +91,7 @@ describe('writeRunOutput', () => {
   it('creates the output directory when it does not exist yet', async () => {
     const nested = join(outputDir, 'not', 'there', 'yet');
 
-    writeRunOutput(nested, await offlineReport());
+    writeRunOutput(nested, await offlineReport(), CONTEXT);
 
     expect(readdirSync(join(nested, 'bundles'))).toHaveLength(22);
   });

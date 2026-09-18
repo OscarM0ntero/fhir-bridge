@@ -2,11 +2,13 @@ import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 import type { PipelineReport } from '../pipeline.js';
+import { buildComparison, type ComparisonContext } from './comparison.js';
 
 export const OUTPUT_FILES = {
   bundles: 'bundles',
   parseReport: 'parse-report.json',
   results: 'results.json',
+  comparison: 'comparison.json',
 } as const;
 
 /**
@@ -15,12 +17,13 @@ export const OUTPUT_FILES = {
  *   bundles/<MRN>.json  the transaction bundle built for each patient
  *   parse-report.json   rows the parser rejected, and every warning raised
  *   results.json        what the server said and did for each patient
+ *   comparison.json     every CSV row next to the FHIR resources it became
  *
  * Output from an earlier run is removed first, so the directory never mixes
  * two runs. That matters most for results.json: an offline run must not leave
  * the results of an earlier upload lying next to its fresh bundles.
  */
-export function writeRunOutput(outputDir: string, report: PipelineReport): void {
+export function writeRunOutput(outputDir: string, report: PipelineReport, context: ComparisonContext): void {
   const bundlesDir = join(outputDir, OUTPUT_FILES.bundles);
   rmSync(bundlesDir, { recursive: true, force: true });
   rmSync(join(outputDir, OUTPUT_FILES.results), { force: true });
@@ -39,6 +42,8 @@ export function writeRunOutput(outputDir: string, report: PipelineReport): void 
   if (report.mode !== 'offline') {
     writeJson(join(outputDir, OUTPUT_FILES.results), report.outcomes);
   }
+
+  writeJson(join(outputDir, OUTPUT_FILES.comparison), buildComparison(report, context));
 }
 
 /**
