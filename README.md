@@ -31,7 +31,8 @@ purpose.
 
 ## Requirements
 
-- Node.js 20.11 or newer
+- Node.js 24 LTS, or 22.22 or newer. The pipeline alone runs on 22.13, the
+  Angular app needs the newer versions.
 - [gitleaks](https://github.com/gitleaks/gitleaks) for the pre-commit hook
 
 ## Setup
