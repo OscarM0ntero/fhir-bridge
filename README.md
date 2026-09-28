@@ -1,5 +1,7 @@
 # FHIR Bridge
 
+[![CI](https://github.com/OscarM0ntero/fhir-bridge/actions/workflows/ci.yml/badge.svg)](https://github.com/OscarM0ntero/fhir-bridge/actions/workflows/ci.yml)
+
 Takes a CSV export from a legacy clinical system, turns it into valid HL7 FHIR
 R4 resources, validates them against a FHIR server, uploads them, and shows
 each original row next to the resources it became. The domain is rare diseases,
@@ -10,6 +12,12 @@ ICD-10 code for the systems that only speak ICD.
 > `data/legacy-export.csv` were written for this project and describe no real
 > person. Resources uploaded to the public test server carry the HL7 `HTEST`
 > security label, which marks them as test data.
+
+![The viewer: a legacy row on the left, the FHIR resources it became on the right](docs/viewer.png)
+
+*Line 2 of the export on the left, with what each column becomes; on the right
+the Patient it produced, labelled as test data and carrying the medical record
+number the old system used. The same patient is built from lines 2 and 4.*
 
 ## What it does
 
